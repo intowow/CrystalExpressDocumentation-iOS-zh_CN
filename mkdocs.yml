@@ -1,0 +1,19 @@
+site_name: CrystalExpress 文檔 - iOS
+theme: readthedocs
+site_favicon: favicon.ico
+extra_css:
+- css/custom.css
+pages:
+- 首頁: index.md
+- 整合導覽:
+  - '安裝設定與基本要求': 'docs/setup.md'
+  - '廣告整合':
+    - '初始化': 'docs/sdk-init.md'
+    - '蓋屏廣告': 'docs/splash-ad.md'
+    - '信息流廣告': 'docs/stream-ad.md'
+    - '內文廣告': 'docs/content-ad.md'
+  - 'SDK 整合':
+    - '註冊背景工作': 'docs/register-background-task.md'
+    - '註冊背景抓取': 'docs/register-background-fetch.md'
+    - '廣告預覽': 'docs/ad-preview.md'
+- 疑難排解: 'docs/trouble-shooting.md'
