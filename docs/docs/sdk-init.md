@@ -1,12 +1,12 @@
-## Import header
+## Import 標頭檔
 
-Import the header files by pasting this code into your AppDelegate :
+添加下方的代碼到您的 `AppDelegate` 中來 import 標頭檔案 :
 ```objc
 #import "I2WAPI.h"
 ```
 
-## Initialize the SDK
-In your application delegate's `application:didFinishLaunchingWithOptions:` method, start the CrystalExpress SDK:
+## 初始化 SDK
+在 application delegate 的 `application:didFinishLaunchingWithOptions:` 中初始化 CrystalExpress SDK :
 ```objc
 #import "I2WAPI.h"
 
@@ -18,6 +18,6 @@ In your application delegate's `application:didFinishLaunchingWithOptions:` meth
 }
 
 ```
-- Set `initWithVerboseLog:(BOOL)` will enable/disable the debug log in console
-- Set `isTestMode:(BOOL)` will control whether to init the SDK in [TEST]() mode
+- 設定 `initWithVerboseLog:(BOOL)` 將會 開啟/關閉 除錯訊息
+- 設定 `isTestMode:(BOOL)` 將會控制是否初始化 SDK 成[測試模式]()
 

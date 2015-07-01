@@ -1,4 +1,4 @@
-In AppDelegate.m, register a background task will allow CrystalExpress SDK able to fetch ADs while app enter background.
+在 AppDelegate.m 中, 註冊背景工作將允許 CrystalExpress SDK 可以在 app 進入背景時有短暫的時間可以下載廣告素材
 ```objc
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {

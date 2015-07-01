@@ -1,9 +1,9 @@
-In AppDelegate.m, register a background fetch will allow CrystalExpress SDK able to fetch ads while iOS awake app aperiodically.
+在 AppDelegate.m 中, 註冊背景抓取將允許當 iOS 不定期背景喚醒 app 時, CrystalExpress SDK 可以下載廣告素材
 
-## How to enable app background fetch?
-1. In project settings, Target -> Capabilities -> Turn Background Modes to ON, check Background Fetch
+## 如何啟用 app 背景抓取功能?
+1. 在專案設定中, Target -> Capabilities -> 設定 Background Modes to ON, 勾選 "Background Fetch"
     - [TODO] 補圖
-2. In AppDelegate.m add function like the following code:
+2. 在 AppDelegate.m 加入下方代碼:
 
 ```objc
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler

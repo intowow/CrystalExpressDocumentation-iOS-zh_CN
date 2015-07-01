@@ -1,10 +1,10 @@
-## Requirements
-Stream ADs are designed for UITableView class
+## 基本需求
+- 此信息流廣告是基於 UITableViewController 類別而設計
 
-## Init streamADHelper
-- We provided a helper class to make stream AD integration easier, via StreamADHelper, you can request and manage stream ADs.
-- Initial streamADHelper in the pre stage (ex. `viewDidLoad`)
-- `preroll` may prepare 1 stream AD to insert in data source at very begining position. Call this before `[self.tableView reloadData]`
+## 初始化 streamADHelper
+- 我們提供 streamADHelper 類別讓信息流廣告整合變得更容易, 透過 streamADHelper, 您可以要求並管理信息流廣告
+- 在物件生成階段初始化 streamADHelper (例如. `viewDidLoad`)
+- `preroll` 會準備一則信息流廣告讓我們可以塞入資料源(data source)裡的前幾個位置. 請在 `[self.tableView reloadData]` 前呼叫這個方法
 ```objc
 - (instancetype)init
 {
@@ -42,8 +42,8 @@ Stream ADs are designed for UITableView class
 }
 ```
 
-## Request stream AD
-StreamADHelper will return whether indexPath is a stream AD, and return the corresponding ADView.
+## 要求信息流廣告
+streamADHelper 根據傳入的 indexPath 回覆是否為一個信息流廣告的位置, 並回應相對應的廣告 view. 若拿到的 view 不是 nil, 請組建一個 UITableViewCell 並回傳, 若是 nil, 則回傳一般的內容 cell
 ```objc
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -78,13 +78,13 @@ StreamADHelper will return whether indexPath is a stream AD, and return the corr
 }
 ```
 
-## StreamADHelper delegate
-### onADLoaded
-- While stream AD view is ready, SDK will callback to `onADLoaded:(UIView *) atIndexPath:(NSIndexPath *) isPreroll:(BOOL)`
-    - `indexPath` indicate the target indexPath SDK prefer to insert
-    - `isPreroll` indicate whether this is a preroll request.
-- If it is a preroll request, there's no need to insert data source in next main loop.
-- Return the real inserted NSIndexPath to helper, or nil if fail to insert.
+## StreamADHelper 回調
+### 信息流廣告讀取完成
+- 當信息流廣告的 view 已經準備好, SDK 會回調 `onADLoaded:atIndexPath:isPreroll`
+    - `indexPath` 代表 SDK 計算出來希望塞入的目標位置
+    - `isPreroll` 代表是否為事先準備的廣告要求
+- 若這是個事先準備的廣告要求, 就不需要在次個主迴圈(main loop)才塞入資料源, 因為 tableView 還沒有呈現到用戶面前
+- 回傳真正塞入資料源的 NSIndexPath 給 streamADHelper 讓其紀錄, 發生錯誤或是故意不塞入資料源時回傳 nil
 ```objc
 - (NSIndexPath *)onADLoaded:(UIView *)adView atIndexPath:(NSIndexPath *)indexPath isPreroll:(BOOL)isPreroll
 {
@@ -130,9 +130,9 @@ StreamADHelper will return whether indexPath is a stream AD, and return the corr
 }
 ```
 
-### onADAnimation
-- onADAnimation will only be called with a specific AD format (Card-Video-PullDown)
-- When the AD is clicked by user, the engage module will extend from the AD view's bottom. Therefore, tableView should update cell height for the animation.
+### 處理信息流廣告動畫
+- `onADAnimation:atIndexPath` 只有在特定的廣告格式(Card-Video-PullDown)才會發生回調
+- 當此種廣告被使用者點擊, 互動卡片會從廣告的底端延展出來. 因此, tableView 需要配合動畫來更新 cell 的高度
 - [TODO] 補圖
 ```objc
 - (void)onADAnimation:(UIView *)adView atIndexPath:(NSIndexPath *)indexPath
@@ -147,10 +147,11 @@ StreamADHelper will return whether indexPath is a stream AD, and return the corr
     }];
 }
 ```
-### Check whether tableView is in idle status
-StreamADHelper will only start playing video AD while tableView is in idle status to maximize the user experience. Therefore, we have this callback method to check whether it is the idle status suitable to play ADs.
 
-You may check other condition if your UI has different effect other than tableView.
+### 檢查 tableView 是否處於靜止狀態
+為了提升使用者體驗, streamADHelper 只有在 tableView 處於靜止狀態時才會開始播放影音廣告. 因此, streamADHelper 會回調此函式來檢查現在是否為一個靜止狀態適合播放廣告
+
+如果您的 UI 設計上有其他特效(不只是 tableView dragging), 可以在這個函式中檢查其他條件
 ```objc
 - (BOOL)checkIdle
 {
@@ -158,10 +159,10 @@ You may check other condition if your UI has different effect other than tableVi
 }
 ```
 
-## Hook viewController & tableView events
-### Activate helper
-Helper will manage ADs if and only if it is in **active** status. So we need to set active (unset active) at the right time.
-Usually the right time means viewController appear to the view (or disappear from the view).
+## 傳送 viewController 和 tableView 的事件
+### 激活/關閉 streamADHelper
+streamADHelper 只有在已經激活時才會處理廣告. 所以我們必須在對的時間去激活(關閉) streamADHelper.
+通常對的時間指的是 viewController 出現在使用者眼前的時候 (消失在使用者眼前的時候)
 ```objc
 // stream will appear to the view
 [_streamHelper setActive:YES];
@@ -170,8 +171,8 @@ Usually the right time means viewController appear to the view (or disappear fro
 [_streamHelper setActive:NO];
 ```
 
-### Update scrollView state to allow helper check AD start/stop
-We need scrollView state to check whether to start/stop stream ADs.
+### 對 streamADHelper 更新 scrollView 的狀態
+我們需要當 scrollView 狀態有變化時來觸發檢查是否要 開始/停止 播放信息流廣告
 ```objc
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -203,8 +204,8 @@ We need scrollView state to check whether to start/stop stream ADs.
 }
 ```
 
-### Update tableView visible position
-In order to compute the right position to request/insert stream ADs, we need to hook `scrollViewDidScroll:` to update current visible positions.
+### 更新 tableView 的可視範圍
+為了計算對的位置來要求/塞入信息流廣告, streamADHelper 需要獲取 `scrollViewDidScroll:` 事件來更新當下的可視範圍
 ```objc
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -213,8 +214,8 @@ In order to compute the right position to request/insert stream ADs, we need to 
 }
 ```
 
-## Refresh data source
-It is normal to have data source refresh mechanism in stream view (ex. pull to refresh). When data source is refreshed, you also need to reset streamADHelper to clear previous loaded ADs.
+## 更新 tableView 資料源
+tableView 定期更新資料源的機制是相當常見的 (例如. 下拉更新). 當資料源被更新時, 同時 streamADHelper 也要清除之前已讀取被暫存的廣告
 ```objc
 - (void)refresh
 {
@@ -232,6 +233,6 @@ It is normal to have data source refresh mechanism in stream view (ex. pull to r
 }
 ```
 ***
-More information
+瞭解更多:
 
 - [API reference]()

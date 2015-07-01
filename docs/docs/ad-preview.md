@@ -1,10 +1,13 @@
-By utilizing ios deeplink, we can to do AD preview in real app, sample url link like follows: {urlScheme}://adpreview?adid={number}
+基於 iOS 深連結 (deeplinking), 透過掃描 QR code , 我們可以在真的 app 上預覽廣告的效果. 範例 QR code 的網址如下:
+```
+{urlScheme}://adpreview?adid={number}
+```
 
-CrystalExpress SDK will only handle adpreview url, and ignore others.
-## How to enable app deeplink ?
-1. First you need to register a URL scheme in you app, in Project > Info > URL Types, register a url scheme for your app to enable the deeplink.
+CrystalExpress SDK 會處理 adpreview 的網址, 並且忽略其他網址
+## 如何啟用 app 深連結?
+1. 首先你需要在您的 app 裡設定一個 URL scheme, 於 Project -> Info -> URL Types, 填入您 app 的 url scheme 以及其他欄位
     - [TODO] 補圖
-2. Add the following code in AppDelegate.m to enable the crystalexpress adPreview function.
+2. 將下列代碼添加到 AppDelegate.m, 啟用 CrystalExpress 的廣告預覽功能
 
 ```objc
 - (BOOL)application:(UIApplication *)application

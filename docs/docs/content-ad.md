@@ -1,9 +1,10 @@
-## Requirements
-- Content AD is designed for scrollView page.
-- Pair with streamView, not 1 content page.
+## 基本需求
+- 內文廣告是針對 scrollView 類別頁面所設計
 
-## Init ContentADHelper
-Pair ContentADHelper with your streams, so initialize it in your stream viewController (or the class you init/manage detail page viewControllers), then assign it to detail page viewController.
+## 初始化 contentADHelper
+- 我們提供了 contentADHelper 來管理內文廣告, 透過 contentADHelper 可以要求/管理內文廣告
+- contentADHelper 可以同時管理多個內文廣告, 所以不需要一個頁面搭配一個 contentADHelper
+- 可以在信息流 viewController 時初始化 contentADHelper, 並指派給內文 viewController
 ```objc
 - (instancetype)init
 {
@@ -29,13 +30,13 @@ Pair ContentADHelper with your streams, so initialize it in your stream viewCont
 }
 ```
 
-Assign contentADHelper to detail page viewController.
+指派 contentADHelper 給內文 viewController
 ```objc
 DemoContentViewController *newContentVC = [[DemoContentViewController alloc] initWithADHelper:_contentADHelper];
 ```
 
-## Request Content AD
-Request content AD while you load detail page content with article unique id.
+## 要求內文廣告
+當您在準備內文內容時, 透過文章 id 去要求內文廣告
 ```objc
 - (void)loadContentWithId:(NSString *)articleId
 {
@@ -65,9 +66,9 @@ Request content AD while you load detail page content with article unique id.
 }
 ```
 
-## onPullDownAnimation
-- `onPullDownAnimationWithAD:` will only be called with a specific AD format (Card-Video-PullDown)
-- When the AD is clicked by user, the engage module will extend from the AD view's bottom. Therefore, scrollView should update the views under content AD for the animation.
+## 處理內文廣告動畫
+- `onPullDownAnimationWithAD:` 只有在特定的廣告格式(Card-Video-PullDown)才會發生回調
+- 當此種廣告被使用者點擊, 互動卡片會從廣告的底端延展出來. 因此, scrollView 需要更新在內文廣告下方的 view 的位置
 ```objc
 - (void)onPullDownAnimationWithAD:(UIView *)adView
 {
@@ -86,8 +87,10 @@ Request content AD while you load detail page content with article unique id.
 }
 ```
 
-## Hook viewController & tableView events
-### Update scrollView state to allow helper check AD start/stop
+## 傳送 viewController 和 scrollView 的事件
+### 對 contentADHelper 更新 scrollView 的狀態
+
+我們需要當 scrollView 狀態有變化時來觸發檢查是否要 開始/停止 播放信息流廣告
 ```objc
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -117,7 +120,7 @@ Request content AD while you load detail page content with article unique id.
 }
 ```
 
-### Update scrollView visible bounds
+### 更新 scrollView 可視範圍
 ```objc
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -125,6 +128,6 @@ Request content AD while you load detail page content with article unique id.
 }
 ```
 ***
-More information
+瞭解更多:
 
 - [API reference]()

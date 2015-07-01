@@ -1,10 +1,9 @@
-## Requirements
-- CrystalExpress works on iOS 7.0 and above.
+## 基本要求
+- CrystalExpress 需要 iOS 7.0 或是以上版本
 
-## Before SDK integration
-- Make sure you have get CrystalExpress.plist from Intowow.
-It will look like this.
-    - If you don't have `Crystal_Id`, please contact Intowow to request one for you app.
+## SDK 整合之前事項
+- 確認您有跟 Intowow 取得 CrystalExpress.plist 的檔案, 檔案內容會像以下 xml (Crystal_Id 會不同)
+    - 如果您的 app 沒有申請過 `Crystal_Id`, 請跟 Intowow 申請
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -17,23 +16,23 @@ It will look like this.
 </plist>
 ```
 
-## Installation
-### Using Cocoapods
-- We strongly recommand you to use Cocoapods to integrate with
-CrystalExpress.
-- Add the following code in Podfile
+## 安裝 SDK
+### 使用 Cocoapods
+- 我們強烈建議您使用 Cocoapods 來整合 CrystalExpress SDK
+- 將下列的代碼加入到 Podfile 中
 ```
 pod "CrystalExpressSDK", '~> 1.2'
 ```
-- `pod update` or `pod install`
-- Open workspace that pod generate for you, you're ready to use CrystalExpress
-- Here's a [sample project](https://github.com/roylo/CrystalExpressSample)
+- 執行 `pod update` 或 `pod install`
+- 打開 pod 產生好的 {yourprojectname}.xcworkspace, CrystalExpressSDK 已經安裝完成
+- 可參考 [sample project](https://github.com/roylo/CrystalExpressSample)
 
-### Manual integration
-1. In project build phases "Link Binary With Libraries", add CrystalExpressSDK-x.x.x.a static library
+### 手動安裝 SDK
+1. 下載 SDK
     - [CrystalExpressSDK-1.2.3](http://intowow-demo.oss-cn-beijing.aliyuncs.com/ios_manual_sdk%2FCrystalExpressSDK-CN-1.2.3.zip)
-1. Add header file to your project
-1. Make sure you have the following frameworks added in Build phases
+2. 打開 xcode 中的 project 設定頁面, Build Phases > Link Binary With Libraries, 加入 CrystalExpressSDK-x.x.x.a
+3. 將 zip 檔中的 header 檔加入 project 中
+4. 確認以下的 frameworks 都已加入 Build Phases
     - Securty.framework
     - CFNetwork.framework
     - MessageUI.framework
@@ -47,18 +46,7 @@ pod "CrystalExpressSDK", '~> 1.2'
     - libsqlite3.dylib
     - AVFoundation.framework
     - libicucore.dylib
-1. Add `-ObjC` in TARGETS -> Build Settings -> Linking -> Other Linker Flags
-1. Add the following files to your project
+5. 在 TARGETS -> Build Settings -> Linking -> Other Linker Flags 加入 `-ObjC`
+6. 將下列的檔案加入 project 中
     - CrystalExpress.plist
-1. You can now start using CrystalExpress lib.
-
-## Test CrystalExpress SDK
-- First initalize SDK
-```objc
-[I2WAPI initWithVerboseLog:YES isTestMode:NO];
-```
-
-- Check whether SDK is ready to serve
-```objc
-BOOL isSDKServing = [I2WAPI isAdServing];
-```
+7. 安裝完成, 您可以開始使用 CrystalExpress SDK library
