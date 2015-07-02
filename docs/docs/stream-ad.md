@@ -132,8 +132,10 @@ streamADHelper 根據傳入的 indexPath 回覆是否為一個信息流廣告的
 
 ### 處理信息流廣告動畫
 - `onADAnimation:atIndexPath` 只有在特定的廣告格式(Card-Video-PullDown)才會發生回調
+
+![stream pulldown AD](../images/stream_pulldown.jpg)
+
 - 當此種廣告被使用者點擊, 互動卡片會從廣告的底端延展出來. 因此, tableView 需要配合動畫來更新 cell 的高度
-- [TODO] 補圖
 ```objc
 - (void)onADAnimation:(UIView *)adView atIndexPath:(NSIndexPath *)indexPath
 {

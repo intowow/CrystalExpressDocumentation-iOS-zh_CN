@@ -68,6 +68,9 @@ DemoContentViewController *newContentVC = [[DemoContentViewController alloc] ini
 
 ## 處理內文廣告動畫
 - `onPullDownAnimationWithAD:` 只有在特定的廣告格式(Card-Video-PullDown)才會發生回調
+
+![content pulldown AD](../images/content_pulldown.jpg)
+
 - 當此種廣告被使用者點擊, 互動卡片會從廣告的底端延展出來. 因此, scrollView 需要更新在內文廣告下方的 view 的位置
 ```objc
 - (void)onPullDownAnimationWithAD:(UIView *)adView

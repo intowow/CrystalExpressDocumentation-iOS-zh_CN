@@ -18,3 +18,4 @@ pages:
     - '廣告預覽': 'docs/ad-preview.md'
 - 範例源碼: 'docs/sample-code.md'
 - 疑難排解: 'docs/trouble-shooting.md'
+- API 參考: 'docs/api-reference.md'

@@ -21,7 +21,7 @@
 - 我們強烈建議您使用 Cocoapods 來整合 CrystalExpress SDK
 - 將下列的代碼加入到 Podfile 中
 ```
-pod "CrystalExpressSDK", '~> 1.2'
+pod "CrystalExpressSDK-CN", '~> 1.2'
 ```
 - 執行 `pod update` 或 `pod install`
 - 打開 pod 產生好的 {yourprojectname}.xcworkspace, CrystalExpressSDK 已經安裝完成
