@@ -50,3 +50,6 @@ pod "CrystalExpressSDK-CN", '~> 1.2'
 6. 將下列的檔案加入 project 中
     - CrystalExpress.plist
 7. 安裝完成, 您可以開始使用 CrystalExpress SDK library
+
+## 變更 Crystal id
+- 安裝完 SDK, 請找到 CrystalExpress.plist 這個檔案, 將 xml 中的 Crystal_Id 置換成您收到的 Crystal_Id
