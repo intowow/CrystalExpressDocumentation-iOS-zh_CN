@@ -1,6 +1,8 @@
 ## 基本需求
 - App 必須支援直向與橫向兩種轉向
 
+## [網頁效果預覽](https://s3.cn-north-1.amazonaws.com.cn/intowow-common/preview/SPLASH2_VIDEO_GENERAL_P_ICLICK.html)
+
 ## 初始化 SplashADHelper
 我們提供了一個 SplashADHelper 類別讓整合蓋屏廣告更簡單, 透過 SplashADHelper, 您可以簡單的要求蓋屏廣告
 ```objc
