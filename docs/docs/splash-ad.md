@@ -78,6 +78,11 @@ SplashADHelper 會呼叫 delegate 函式並且返回準備好的 `SplashADInterf
 }
 ```
 **注意** 蓋屏廣告支援直向和橫向兩種廣告, 在整合之前請確認您的 app 對於兩種轉向都有支援
+
+## 常見的蓋屏廣告版位
+- [開機蓋屏](open-splash-ad.md)
+- [插頁蓋屏](interstitial-ad.md)
+
 ***
 瞭解更多:
 
