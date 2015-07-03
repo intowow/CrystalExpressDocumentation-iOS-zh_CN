@@ -5,8 +5,9 @@
 
 CrystalExpress SDK 會處理 adpreview 的網址, 並且忽略其他網址
 ## 如何啟用 app 深連結?
+![configure deeplink](../images/deeplink.png)
+
 1. 首先你需要在您的 app 裡設定一個 URL scheme, 於 Project -> Info -> URL Types, 填入您 app 的 url scheme 以及其他欄位
-    - [TODO] 補圖
 2. 將下列代碼添加到 AppDelegate.m, 啟用 CrystalExpress 的廣告預覽功能
 
 ```objc

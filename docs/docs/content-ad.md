@@ -133,4 +133,5 @@ DemoContentViewController *newContentVC = [[DemoContentViewController alloc] ini
 ***
 瞭解更多:
 
-- [API reference]()
+- [API reference](api-reference.md)
+- [中英術語對照](https://github.com/roylo/CrystalExpressDocumentation-iOS-zh_CN/blob/master/terminology.md)

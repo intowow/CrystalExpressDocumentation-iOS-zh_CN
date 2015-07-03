@@ -237,4 +237,5 @@ tableView 定期更新資料源的機制是相當常見的 (例如. 下拉更新
 ***
 瞭解更多:
 
-- [API reference]()
+- [API reference](api-reference.md)
+- [中英術語對照](https://github.com/roylo/CrystalExpressDocumentation-iOS-zh_CN/blob/master/terminology.md)
