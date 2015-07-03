@@ -10,6 +10,7 @@
 
 ### 整合細節說明
 - App 重新啟動時, 首先初始化 SDK, 並設定應該要求開機蓋屏廣告
+    - [觀看程式碼](https://github.com/roylo/CrystalExpressCNSample/blob/4d5143ed1251c91aec6ba9dc19d86aef2e7ed1fb/CrystalExpressAppCN/CrystalExpressAppCN/AppDelegate.m#L39)
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -24,6 +25,7 @@
 ```
 
 - App 進入前景時, 設定應該要求開機蓋屏廣告
+    - [觀看程式碼](https://github.com/roylo/CrystalExpressCNSample/blob/4d5143ed1251c91aec6ba9dc19d86aef2e7ed1fb/CrystalExpressAppCN/CrystalExpressAppCN/AppDelegate.m#L67)
 ```objc
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
@@ -33,6 +35,7 @@
 ```
 
 - `applicationWillResignActive:` 和 `application:openURL:sourceApplication:annotation:` 不需呼叫開機蓋屏
+    - [觀看程式碼](https://github.com/roylo/CrystalExpressCNSample/blob/4d5143ed1251c91aec6ba9dc19d86aef2e7ed1fb/CrystalExpressAppCN/CrystalExpressAppCN/AppDelegate.m#L47)
 ```objc
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -54,6 +57,7 @@
 
 - 統一在 `applicationDidBecomeActive:` 時要求開機蓋屏廣告
 - 若此時沒有呼叫開機蓋屏, 則準備 App 的內容 viewController
+    - [觀看程式碼](https://github.com/roylo/CrystalExpressCNSample/blob/4d5143ed1251c91aec6ba9dc19d86aef2e7ed1fb/CrystalExpressAppCN/CrystalExpressAppCN/AppDelegate.m#L71)
 ```objc
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
@@ -65,6 +69,7 @@
 ```
 
 - 先確定目前 UI 上沒有蓋屏廣告, 才要求開機蓋屏廣告
+    - [觀看程式碼](https://github.com/roylo/CrystalExpressCNSample/blob/4d5143ed1251c91aec6ba9dc19d86aef2e7ed1fb/CrystalExpressAppCN/CrystalExpressAppCN/AppDelegate.m#L115)
 ```objc
 - (BOOL)requestOpenSplash
 {
@@ -92,12 +97,11 @@
 - 設定蓋屏廣告的 Delegate 函式
     - 成功收到蓋屏廣告的 ViewController, 顯示在 UI 上並開始準備 App 內容 viewController
     - SDK 回應要求蓋屏廣告失敗, 準備 App 內容 viewController
+    - [觀看程式碼](https://github.com/roylo/CrystalExpressCNSample/blob/4d5143ed1251c91aec6ba9dc19d86aef2e7ed1fb/CrystalExpressAppCN/CrystalExpressAppCN/AppDelegate.m#L138)
 ```objc
 #pragma mark - SplashADHelperDelegate
 - (void)SplashADDidReceiveAd:(NSArray *)ad viewController:(SplashADInterfaceViewController *)vc
 {
-    [vc setDelegate:self];
-
     UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
     while (topController.presentedViewController) {
         topController = topController.presentedViewController;
