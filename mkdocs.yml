@@ -20,5 +20,7 @@ pages:
     - '開機蓋屏': 'docs/open-splash-ad.md'
     - '插頁蓋屏': 'docs/interstitial-ad.md'
 - 範例源碼: 'docs/sample-code.md'
+- 檢查清單:
+  - '功能檢查清單': 'docs/integration-checklist.md'
 - 疑難排解: 'docs/trouble-shooting.md'
 - API 參考: 'docs/api-reference.md'
