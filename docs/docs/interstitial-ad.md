@@ -33,19 +33,45 @@
     - [觀看程式碼](https://github.com/roylo/CrystalExpressCNSample/blob/4d5143ed1251c91aec6ba9dc19d86aef2e7ed1fb/CrystalExpressAppCN/CrystalExpressAppCN/ViewController/DemoStreamSectionViewController.m#L245)
 ```objc
 #pragma mark - DemoStreamSectionViewController.m
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        ....
+        _CEInterstitialSplash = [[CESplashAD alloc] initWithPlacement:@"INTERSTITIAL_SPLASH" delegate:self];
+    }
+    return self;
+}
+
 - (void)requestInterstitialSplashAD
 {
-    [_interstitialSplashHelper requestSplashADWithPlacement:@"INTERSTITIAL_SPLASH" mode:CE_SPLASH_MODE_SINGLE_OFFER];
+    [_CEInterstitialSplash loadAd];
 }
 
-#pragma mark - SplashADHelperDelegate
-- (void)SplashADDidReceiveAd:(NSArray *)ad viewController:(SplashADInterfaceViewController *)vc
+#pragma mark - CESplashADDelegate
+- (void)CESplashADDidReceiveAd:(NSArray *)ad viewController:(SplashADInterfaceViewController *)vc
 {
-    [self presentViewController:vc animated:YES completion:nil];
+    [_CEInterstitialSplash showFromViewController:self animated:YES];
 }
 
-- (void)SplashADDidFailToReceiveAdWithError:(NSError *)error viewController:(SplashADInterfaceViewController *)vc
+- (void)CESplashADDidFailToReceiveAdWithError:(NSError *)error viewController:(SplashADInterfaceViewController *)vc
 {
-    NSLog("request interstitial AD fail, error:%@", error);
+    NSLog("load interstitial ad fail, error:%@", error);
+}
+
+- (void)CESplashAdWillDismissScreen:(SplashADInterfaceViewController *)vc
+{
+}
+
+- (void)CESplashAdWillPresentScreen:(SplashADInterfaceViewController *)vc
+{
+}
+
+- (void)CESplashAdDidDismissScreen:(SplashADInterfaceViewController *)vc
+{
+}
+
+- (void)CESplashAdDidPresentScreen:(SplashADInterfaceViewController *)vc
+{
 }
 ```

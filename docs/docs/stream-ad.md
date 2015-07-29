@@ -1,231 +1,114 @@
 ## 基本需求
 - 此信息流廣告是基於 UITableViewController 類別而設計
 
-## 初始化 streamADHelper
-- 我們提供 streamADHelper 類別讓信息流廣告整合變得更容易, 透過 streamADHelper, 您可以要求並管理信息流廣告
-- 在物件生成階段初始化 streamADHelper (例如. `viewDidLoad`)
-- `preroll` 會準備一則信息流廣告讓我們可以塞入資料源(data source)裡的前幾個位置. 請在 `[self.tableView reloadData]` 前呼叫這個方法
+## 1. 初始化 CEStreamADHelper
+- 我們提供 CEStreamADHelper 類別讓信息流廣告整合變得更容易, 透過 CEStreamADHelper, 您可以要求並管理信息流廣告
+- 在物件生成階段初始化 CEStreamADHelper (例如. `viewDidLoad`)
 ```objc
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        .....
-        // replace @"STREAM" with your own placement name
-        _streamHelper = [[StreamADHelper alloc] initWithPlacement:@"STREAM"];
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     .....
 
     // prepare your tableview data source
     [self prepareDataSource];
-    if (_streamHelper) {
-        // set helper delegate to get AD event
-        [_streamHelper setDelegate:self];
 
-        // if you need customized ad width, add this line (Optional)
-        [_streamHelper setPreferAdWidth:320.0f];
-
-        // call preroll to prepare 1 stream AD before tableView load data
-        [_streamHelper preroll];
-    }
-    [self.tableView reloadData];
-
-    // update cell visible position allow helper to check whether AD should start/stop
-    [_streamHelper updateVisiblePosition:[self tableView]];
-
+    //
+    [self setupStreamADHelper];
    .....
 }
-```
 
-## 要求信息流廣告
-streamADHelper 根據傳入的 indexPath 回覆是否為一個信息流廣告的位置, 並回應相對應的廣告 view. 若拿到的 view 不是 nil, 請組建一個 UITableViewCell 並回傳, 若是 nil, 則回傳一般的內容 cell
-```objc
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - stream ADHelper
+- (void)setupStreamADHelper
 {
-    // check whether indexPath is a stream AD
-    UITableViewCell *cell = [self getADTableViewCellForTableView:tableView atIndexPath:indexPath];
-    if (cell != nil) {
-        return cell;
-    } else {
-        // return the normal content cell
-        .....
-    }
+    _adHelper = [CETableViewADHelper helperWithTableView:self.tableView viewController:self placement:@"STREAM"];
+
+    // @optional
+    // You can assign a AD width for stream AD
+    [_adHelper setAdWidth:310];
+
+    // start request AD
+    [_adHelper loadAd];
 }
 
-- (UITableViewCell *)getADTableViewCellForTableView:(UITableView *)tableView atIndexPath:(NSIndexPath *)indexPath
-{
-    UIView *adView = [_streamHelper requestADAtPosition:indexPath];
-    if (adView != nil) {
-        NSString *identifier = [NSString stringWithFormat:@"ADCell_%@_%d_%d", _sectionName, (int)[indexPath section], (int)[indexPath row]];
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        }
-
-        [[cell contentView] addSubview:adView];
-        [adView setFrame:CGRectMake((SCREEN_WIDTH - adView.bounds.size.width)/2.0f, _adVerticalMargin, adView.bounds.size.width, adView.bounds.size.height)];
-        [[cell contentView] setBackgroundColor:[UIColor colorWithWhite:0.905 alpha:1.0]];
-        return cell;
-    } else {
-        return nil;
-    }
-}
 ```
 
-## StreamADHelper 回調
-### 信息流廣告讀取完成
-- 當信息流廣告的 view 已經準備好, SDK 會回調 `onADLoaded:atIndexPath:isPreroll`
-    - `indexPath` 代表 SDK 計算出來希望塞入的目標位置
-    - `isPreroll` 代表是否為事先準備的廣告要求
-- 若這是個事先準備的廣告要求, 就不需要在次個主迴圈(main loop)才塞入資料源, 因為 tableView 還沒有呈現到用戶面前
-- 回傳真正塞入資料源的 NSIndexPath 給 streamADHelper 讓其紀錄, 發生錯誤或是故意不塞入資料源時回傳 nil
+## 2. 更新 viewController 出現/隱藏
+- 當 viewController 出現在使用者眼前時, 我們需要呼叫 onShow 讓廣告啟動播放 (譬如 `viewDidAppear`)
+- 當 viewController 消失在使用者眼前時, 我們需要呼叫 onHide 讓廣告停止播放 (譬如 `viewDidDisappear`)
+
 ```objc
-- (NSIndexPath *)onADLoaded:(UIView *)adView atIndexPath:(NSIndexPath *)indexPath isPreroll:(BOOL)isPreroll
+- (void)viewDidAppear:(BOOL)animated
 {
-    // Don't place ad at the first place!!
-    int position = MAX(1, [indexPath row]);
-    NSMutableArray *dataSource = [_dataSources objectAtIndex:[indexPath section]];
-    NSIndexPath *finalIndexPath = [NSIndexPath indexPathForRow:position inSection:[indexPath section]];
-
-    if ([dataSource count] >= position) {
-        // if this request is preroll, no need to insert in another main loop
-        if (isPreroll) {
-            NSMutableDictionary *adDict = [[NSMutableDictionary alloc] init];
-            CGFloat adHeight = adView.bounds.size.height;
-            [adDict setObject:[NSNumber numberWithFloat:adHeight + 2*_adVerticalMargin] forKey:@"height"];
-
-            NSArray *indexPathsToAdd = @[finalIndexPath];
-            [[self tableView] beginUpdates];
-            [dataSource insertObject:adDict atIndex:position];
-            [[self tableView] insertRowsAtIndexPaths:indexPathsToAdd
-                                    withRowAnimation:UITableViewRowAnimationNone];
-            [[self tableView] endUpdates];
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^(){
-                NSMutableDictionary *adDict = [[NSMutableDictionary alloc] init];
-                CGFloat adHeight = adView.bounds.size.height;
-                [adDict setObject:[NSNumber numberWithFloat:adHeight + 2*_adVerticalMargin] forKey:@"height"];
-
-                NSArray *indexPathsToAdd = @[finalIndexPath];
-                [[self tableView] beginUpdates];
-                [dataSource insertObject:adDict atIndex:position];
-                [[self tableView] insertRowsAtIndexPaths:indexPathsToAdd
-                                        withRowAnimation:UITableViewRowAnimationNone];
-                [[self tableView] endUpdates];
-            });
-        }
-
-        // return the real indexPath inserted into tableView
-        return finalIndexPath;
-    } else {
-        // return nil if error
-        return nil;
-    }
-}
-```
-
-### 處理信息流廣告動畫
-- `onADAnimation:atIndexPath` 只有在特定的廣告格式(Card-Video-PullDown)才會發生回調
-
-![stream pulldown AD](../images/stream_pulldown.jpg)
-
-- 當此種廣告被使用者點擊, 互動卡片會從廣告的底端延展出來. 因此, tableView 需要配合動畫來更新 cell 的高度
-```objc
-- (void)onADAnimation:(UIView *)adView atIndexPath:(NSIndexPath *)indexPath
-{
-    NSMutableArray *dataSource = [_dataSources objectAtIndex:[indexPath section]];
-    [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-        [[self tableView] beginUpdates];
-        [[dataSource objectAtIndex:[indexPath row]] setObject:[NSNumber numberWithInt:adView.bounds.size.height + 2*_adVerticalMargin] forKey:@"height"];
-        [[self tableView] endUpdates];
-    } completion:^(BOOL finished) {
-
-    }];
-}
-```
-
-### 檢查 tableView 是否處於靜止狀態
-為了提升使用者體驗, streamADHelper 只有在 tableView 處於靜止狀態時才會開始播放影音廣告. 因此, streamADHelper 會回調此函式來檢查現在是否為一個靜止狀態適合播放廣告
-
-如果您的 UI 設計上有其他特效(不只是 tableView dragging), 可以在這個函式中檢查其他條件
-```objc
-- (BOOL)checkIdle
-{
-    return (![[self tableView] isDecelerating] && ![[self tableView] isDragging]);
-}
-```
-
-## 傳送 viewController 和 tableView 的事件
-### 激活/關閉 streamADHelper
-streamADHelper 只有在已經激活時才會處理廣告. 所以我們必須在對的時間去激活(關閉) streamADHelper.
-通常對的時間指的是 viewController 出現在使用者眼前的時候 (消失在使用者眼前的時候)
-```objc
-// stream will appear to the view
-[_streamHelper setActive:YES];
-
-// stream will disappear from the view
-[_streamHelper setActive:NO];
-```
-
-### 對 streamADHelper 更新 scrollView 的狀態
-我們需要當 scrollView 狀態有變化時來觸發檢查是否要 開始/停止 播放信息流廣告
-```objc
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [_streamHelper scrollViewStateChanged];
-    ....
+    [super viewDidAppear:animated];
+    [_adHelper onShow];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [_streamHelper scrollViewStateChanged];
-    ....
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    // No need to call if scrollView is still scrolling
-    if (decelerate == NO) {
-        [_streamHelper scrollViewStateChanged];
-    }
-    ....
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [_streamHelper scrollViewStateChanged];
-    ....
+    [_adHelper onHide];
 }
 ```
 
-### 更新 tableView 的可視範圍
-為了計算對的位置來要求/塞入信息流廣告, streamADHelper 需要獲取 `scrollViewDidScroll:` 事件來更新當下的可視範圍
+## 3. 取代 `UITableView` 呼叫的方法
+- 將下列 `UITableView` 的方法改使用 CrystalExpressSDK category 等同的方法
+
+例如原本使用:
+
 ```objc
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [_streamHelper scrollViewDidScroll:scrollView tableView:[self tableView]];
-    ....
-}
+[self.tableView selectRowAtIndexPath:myIndexPath];
 ```
 
-## 更新 tableView 資料源
+改為
+
+```objc
+[self.tableView ce_selectRowAtIndexPath:myIndexPath];
+```
+
+這些方法就像一般的 `UITableView` 方法, 但會根據插入的廣告來調整 `NSIndexPath`
+
+`**重要**` 這些方法置換是非常重要的, 如果你跳過了這個步驟, 內容欄位的位置可能會出現錯誤
+
+| 原始方法                                          | 替換方法                                             |
+|---------------------------------------------------|------------------------------------------------------|
+| setDelegate:                                      | ce_setDelegate:                                      |
+| delegate                                          | ce_delegate                                          |
+| setDataSource:                                    | ce_setDataSource:                                    |
+| dataSource                                        | ce_dataSource                                        |
+| reloadData                                        | ce_reloadData                                        |
+| rectForRowAtIndexPath:                            | ce_rectForRowAtIndexPath:                            |
+| indexPathForRowAtPoint:                           | ce_indexPathForRowAtPoint:                           |
+| indexPathForCell:                                 | ce_indexPathForCell:                                 |
+| indexPathsForRowsInRect:                          | ce_indexPathsForRowsInRect:                          |
+| cellForRowAtIndexPath:                            | ce_cellForRowAtIndexPath:                            |
+| visibleCells                                      | ce_visibleCells                                      |
+| indexPathsForVisibleRows:                         | ce_indexPathsForVisibleRows:                         |
+| scrollToRowAtIndexPath:atScrollPosition:animated: | ce_scrollToRowAtIndexPath:atScrollPosition:animated: |
+| beginUpdates                                      | ce_beginUpdates                                      |
+| endUpdates                                        | ce_endUpdates                                        |
+| insertSections:withRowAnimation:                  | ce_insertSections:withRowAnimation:                  |
+| deleteSections:withRowAnimation:                  | ce_deleteSections:withRowAnimation:                  |
+| reloadSections:withRowAnimation:                  | ce_reloadSections:withRowAnimation:                  |
+| moveSection:toSection:                            | ce_moveSection:toSection:                            |
+| insertRowsAtIndexPaths:withRowAnimation:          | ce_insertRowsAtIndexPaths:withRowAnimation:          |
+| deleteRowsAtIndexPaths:withRowAnimation:          | ce_deleteRowsAtIndexPaths:withRowAnimation:          |
+| reloadRowsAtIndexPaths:withRowAnimation:          | ce_reloadRowsAtIndexPaths:withRowAnimation:          |
+| moveRowAtIndexPath:toIndexPath:                   | ce_moveRowAtIndexPath:toIndexPath:                   |
+| indexPathForSelectedRow:                          | ce_indexPathForSelectedRow:                          |
+| indexPathsForSelectedRows:                        | ce_indexPathsForSelectedRows:                        |
+| selectRowAtIndexPath:animated:scrollPosition:     | ce_selectRowAtIndexPath:animated:scrollPosition:     |
+| deselectRowAtIndexPath:animated:                  | ce_deselectRowAtIndexPath:animated:                  |
+| dequeueReusableCellWithIdentifier:forIndexPath:   | ce_dequeueReusableCellWithIdentifier:forIndexPath:   |
+
+## 4. 更新 tableView 資料源
 tableView 定期更新資料源的機制是相當常見的 (例如. 下拉更新). 當資料源被更新時, 同時 streamADHelper 也要清除之前已讀取被暫存的廣告
 ```objc
 - (void)refresh
 {
     [self.pullToRefreshView startLoading];
-    [_streamHelper cleanADs];
     [self prepareDataSources];
+    [_adHelper cleanAds];
     [self.tableView reloadData];
-    [_streamHelper updateVisiblePosition:self.tableView];
     [self.pullToRefreshView finishLoading];
 }
 

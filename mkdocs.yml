@@ -17,7 +17,7 @@ pages:
     - '註冊背景抓取 (background fetch)': 'docs/register-background-fetch.md'
     - '廣告預覽': 'docs/ad-preview.md'
 - 建議廣告版位:
-    - '開機蓋屏': 'docs/open-splash-ad.md'
+    - '開機大屏': 'docs/open-splash-ad.md'
     - '插頁蓋屏': 'docs/interstitial-ad.md'
 - 範例源碼: 'docs/sample-code.md'
 - 檢查清單:

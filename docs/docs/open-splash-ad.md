@@ -1,8 +1,8 @@
 ## 觸發時機
-開機蓋屏的觸發時機為每次開啟 App, 都有機會顯示開機蓋屏
+開機蓋屏的觸發時機為每次開啟 App, 都有機會顯示開機大屏
 
 ## 支援廣告格式
-開機蓋屏支援的廣告格式為 **蓋屏系列**
+開機大屏支援的廣告格式為 **蓋屏系列**
 
 ## 整合方式
 - 在 AppDelegate.m, App 從背景進入前景的階段去要求蓋屏廣告
@@ -16,7 +16,7 @@
 {
     .....
 
-    [I2WAPI initWithVerboseLog:YES isTestMode:NO];
+    [I2WAPI initWithVerboseLog:NO isTestMode:NO];
     _shouldRequestOpenSplash = YES;
 
     .....
@@ -89,7 +89,7 @@
         }
     }
 
-    [_openSplashHelper requestSplashADWithPlacement:@"OPEN_SPLASH" mode:CE_SPLASH_MODE_SINGLE_OFFER];
+    [_openSplashHelper loadAd];
     return YES;
 }
 ```
@@ -99,22 +99,40 @@
     - SDK 回應要求蓋屏廣告失敗, 準備 App 內容 viewController
     - [觀看程式碼](https://github.com/roylo/CrystalExpressCNSample/blob/4d5143ed1251c91aec6ba9dc19d86aef2e7ed1fb/CrystalExpressAppCN/CrystalExpressAppCN/AppDelegate.m#L138)
 ```objc
-#pragma mark - SplashADHelperDelegate
-- (void)SplashADDidReceiveAd:(NSArray *)ad viewController:(SplashADInterfaceViewController *)vc
+#pragma mark - CESplashADDelegate
+- (void)CESplashADDidReceiveAd:(NSArray *)ad viewController:(SplashADInterfaceViewController *)vc
 {
     UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
     while (topController.presentedViewController) {
         topController = topController.presentedViewController;
     }
 
-    [topController presentViewController:vc animated:YES completion:^{
-        [self prepareContentViewController];
-    }];
+    [_CEOpenSplashAD showFromViewController:topController animated:YES];
 }
 
 - (void)SplashADDidFailToReceiveAdWithError:(NSError *)error viewController:(SplashADInterfaceViewController *)vc
 {
     NSLog(@"fail to request OPEN_SPLASH, reason:%@", error);
+    [self prepareContentViewController];
+}
+
+- (void)CESplashAdWillDismissScreen:(SplashADInterfaceViewController *)vc
+{
+
+}
+
+- (void)CESplashAdWillPresentScreen:(SplashADInterfaceViewController *)vc
+{
+
+}
+
+- (void)CESplashAdDidDismissScreen:(SplashADInterfaceViewController *)vc
+{
+
+}
+
+- (void)CESplashAdDidPresentScreen:(SplashADInterfaceViewController *)vc
+{
     [self prepareContentViewController];
 }
 ```

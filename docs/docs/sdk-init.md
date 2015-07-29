@@ -13,7 +13,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // init SDK
-    [I2WAPI initWithVerboseLog:YES isTestMode:NO];
+    [I2WAPI initWithVerboseLog:NO isTestMode:NO];
     return YES;
 }
 
@@ -21,3 +21,12 @@
 - 設定 `initWithVerboseLog:(BOOL)` 將會 開啟/關閉 除錯訊息
 - 設定 `isTestMode:(BOOL)` 將會控制是否初始化 SDK 成[測試模式]()
 
+## 清除過期的廣告素材
+在每次 app 進入前景時, 讓 SDK 有機會清理過期的廣告素材
+```objc
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    // refresh current AD creatives
+    [I2WAPI refreshI2WAds];
+}
+```

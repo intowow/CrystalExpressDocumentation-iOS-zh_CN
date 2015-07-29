@@ -1,6 +1,6 @@
 基於 iOS 深連結 (deeplinking), 透過掃描 QR code , 我們可以在真的 app 上預覽廣告的效果. 範例 QR code 的網址如下:
 ```
-{urlScheme}://adpreview?adid={number}
+{urlScheme}://crystalexpress?action=adpreview?adid={number}
 ```
 
 CrystalExpress SDK 會處理 adpreview 的網址, 並且忽略其他網址
