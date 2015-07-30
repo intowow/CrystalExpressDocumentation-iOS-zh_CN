@@ -16,6 +16,7 @@ pages:
     - '註冊背景工作 (background task)': 'docs/register-background-task.md'
     - '註冊背景抓取 (background fetch)': 'docs/register-background-fetch.md'
     - '廣告預覽': 'docs/ad-preview.md'
+    - '廣告事件回調' : 'docs/ad-event-callback.md'
 - 建議廣告版位:
     - '開機大屏': 'docs/open-splash-ad.md'
     - '插頁蓋屏': 'docs/interstitial-ad.md'
