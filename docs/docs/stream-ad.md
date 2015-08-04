@@ -1,9 +1,9 @@
 ## 基本需求
 - 此信息流廣告是基於 UITableViewController 類別而設計
 
-## 1. 初始化 CEStreamADHelper
-- 我們提供 CEStreamADHelper 類別讓信息流廣告整合變得更容易, 透過 CEStreamADHelper, 您可以要求並管理信息流廣告
-- 在物件生成階段初始化 CEStreamADHelper (例如. `viewDidLoad`)
+## 1. 初始化 CETableViewADHelper
+- 我們提供 CETableViewADHelper 類別讓信息流廣告整合變得更容易, 透過 CETableViewADHelper, 您可以要求並管理信息流廣告
+- 在物件生成階段初始化 CETableViewADHelper (例如. `viewDidLoad`)
 ```objc
 - (void)viewDidLoad
 {
@@ -22,9 +22,17 @@
 {
     _adHelper = [CETableViewADHelper helperWithTableView:self.tableView viewController:self placement:@"STREAM"];
 
-    // @optional
+    // ---- @optional block ------------------------------
     // You can assign a AD width for stream AD
     [_adHelper setAdWidth:310];
+
+    // You can assign background color for AD cell
+    [_adHelper setAdBackgroundColor:[UIColor colorWithWhite:0.906 alpha:1.0f]];
+
+    // You can assign vertical margin for AD cell
+    [_adHelper setAdVerticalMargin:5.0f];
+
+    // ---- end of optional block ------------------------
 
     // start request AD
     [_adHelper loadAd];

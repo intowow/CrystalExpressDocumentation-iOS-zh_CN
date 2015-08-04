@@ -15,13 +15,13 @@
     - `placement` 廣告版位名稱是一個獨一無二的字串用來代表廣告版位
 ```objc
 // init splash helper
-_splashHelper = [[CESplashAD alloc] initWithPlacement:@"OPEN_SPLASH" delegate:self];
+_CEOpenSplashAD = [[CESplashAD alloc] initWithPlacement:@"OPEN_SPLASH" delegate:self];
 ```
 
 ## 3. 要求蓋屏廣告
 ```objc
 // request AD
-[_splashHelper loadAd];
+[_CEOpenSplashAD loadAd];
 ```
 
 ## 4. CESplashAD 回調
