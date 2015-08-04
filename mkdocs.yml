@@ -23,5 +23,6 @@ pages:
 - 範例源碼: 'docs/sample-code.md'
 - 檢查清單:
   - '功能檢查清單': 'docs/integration-checklist.md'
+- 版本修改紀錄: 'docs/changelog.md'
 - 疑難排解: 'docs/trouble-shooting.md'
 - API 參考: 'docs/api-reference.md'
