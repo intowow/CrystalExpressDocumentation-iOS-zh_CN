@@ -1,5 +1,6 @@
 ## 觸發時機
 開機蓋屏的觸發時機為每次開啟 App, 都有機會顯示開機大屏
+
 1. App lanuch
 2. App enterForeground
 
