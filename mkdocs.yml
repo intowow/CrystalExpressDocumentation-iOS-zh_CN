@@ -12,8 +12,9 @@ pages:
     - '蓋屏廣告': 'docs/splash-ad.md'
     - '信息流廣告': 'docs/stream-ad.md'
     - '內文廣告': 'docs/content-ad.md'
-  - '廣告整合進階功能':
-    - '信息流廣告': 'docs/advanced-stream-ad.md'
+  - '進階廣告整合':
+    - '設定信息流廣告': 'docs/advanced-stream-ad.md'
+    - '卡片式廣告': 'docs/card-format-ad.md'
   - 'SDK 整合':
     - '註冊背景工作 (background task)': 'docs/register-background-task.md'
     - '註冊背景抓取 (background fetch)': 'docs/register-background-fetch.md'
