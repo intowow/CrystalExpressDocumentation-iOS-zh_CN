@@ -33,7 +33,7 @@ pod "CrystalExpressSDK-CN", '~> 1.3'
 2. 打開 xcode 中的 project 設定頁面, Build Phases > Link Binary With Libraries, 加入 CrystalExpressSDK-x.x.x.a
 3. 將 zip 檔中的 header 檔加入 project 中
 4. 確認以下的 frameworks 都已加入 Build Phases
-    - Securty.framework
+    - Security.framework
     - CFNetwork.framework
     - MessageUI.framework
     - MobileCoreServices.framework
