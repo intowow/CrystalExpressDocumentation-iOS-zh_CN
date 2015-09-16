@@ -13,7 +13,7 @@ pages:
     - '信息流廣告': 'docs/stream-ad.md'
     - '內文廣告': 'docs/content-ad.md'
   - '進階廣告整合':
-    - '設定蓋平廣告': 'docs/advanced-splash-ad.md'
+    - '設定蓋屏廣告': 'docs/advanced-splash-ad.md'
     - '設定信息流廣告': 'docs/advanced-stream-ad.md'
     - '卡片式廣告': 'docs/card-format-ad.md'
   - 'SDK 整合':
