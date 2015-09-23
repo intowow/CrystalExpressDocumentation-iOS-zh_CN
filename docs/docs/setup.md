@@ -53,3 +53,51 @@ pod "CrystalExpressSDK-CN", '~> 1.3'
 
 ## 變更 Crystal id
 - 安裝完 SDK, 請找到 CrystalExpress.plist 這個檔案, 將 xml 中的 Crystal_Id 置換成您收到的 Crystal_Id 更改為 intowow 給您的 crystal_id
+
+## 設定允許 Http 連線
+- 在 xcode7 (iOS9) 之後, 會阻擋 http 連線, 需要在 Info.plist 中加入 ignore 的網址清單
+```xml
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSExceptionDomains</key>
+    <dict>
+        <key>crystalexpress.optimix.cn</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+        </dict>
+        <key>ce-track-prod-731319680.cn-north-1.elb.amazonaws.com.cn</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+        </dict>
+        <key>ce-geoinfo-944027801.cn-north-1.elb.amazonaws.com.cn</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+        </dict>
+        <key>ce-api-1741305250.cn-north-1.elb.amazonaws.com.cn</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+        </dict>
+    </dict>
+</dict>
+
+```
