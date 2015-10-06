@@ -56,70 +56,12 @@ pod "CrystalExpressSDK-CN", '~> 1.3'
 
 ## 設定允許 Http 連線
 - 在 xcode7 (iOS9) 之後, 會阻擋 http 連線, 需要在 Info.plist 中加入忽略的網址清單
-```xml
-<key>NSAppTransportSecurity</key>
-<dict>
-    <key>NSExceptionDomains</key>
-    <dict>
-        <key>crystalexpress.optimix.cn</key>
-        <dict>
-            <key>NSIncludesSubdomains</key>
-            <true/>
-            <key>NSExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-        </dict>
-        <key>amazonaws.com.cn</key>
-        <dict>
-            <key>NSIncludesSubdomains</key>
-            <true/>
-            <key>NSExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-        </dict>
-    </dict>
-</dict>
-
-```
-
-- 若是 CrystalExpress 有使用您公司的 CDN, 請將 CDN domain 也加入忽略清單中
-    - 例如給crystalexpress 使用的 CDN domian name 是 `crystalexpress.intowow.com`, 則加入下列設定
+- 目前許多廣告的點擊連結都還是 http 連線, 我們無法事先預知需要排除的 domain, 因此需要允許任意的 http 連線
 
 ```xml
 <key>NSAppTransportSecurity</key>
 <dict>
-    <key>NSExceptionDomains</key>
-    <dict>
-        <!-- this key is your CDN for crystalexpress -->
-        <key>crystalexpress.intowow.com</key>
-        <dict>
-            <key>NSIncludesSubdomains</key>
-            <true/>
-            <key>NSExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-        </dict>
-        <key>crystalexpress.optimix.cn</key>
-        <dict>
-            <key>NSIncludesSubdomains</key>
-            <true/>
-            <key>NSExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-        </dict>
-        <key>amazonaws.com.cn</key>
-        <dict>
-            <key>NSIncludesSubdomains</key>
-            <true/>
-            <key>NSExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-        </dict>
-    </dict>
+     <key>NSAllowsArbitraryLoads</key>
+     <true/>
 </dict>
 ```
