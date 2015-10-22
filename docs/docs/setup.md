@@ -13,7 +13,7 @@ pod "CrystalExpressSDK-CN", '~> 1.4'
 ```
 - 執行 `pod update` 或 `pod install`
 - 打開 pod 產生好的 {yourprojectname}.xcworkspace, CrystalExpressSDK 已經安裝完成
-- 可參考 [sample project](https://github.com/roylo/CrystalExpressSample)
+- 可參考 [sample project](https://github.com/ytli1204/CrystalExpressCNSample)
 
 ### 手動安裝 SDK
 1. 下載 SDK
