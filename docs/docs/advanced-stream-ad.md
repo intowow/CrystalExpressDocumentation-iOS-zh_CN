@@ -65,3 +65,13 @@ _adHelper = [CETableViewADHelper helperWithTableView:self.tableView viewControll
 - (void)setAdCellCustomizedBlock:(void (^)(UITableViewCell *adCell))customizedAdCellBlock;
 ```
 
+### 在信息流中放置固定廣告
+1. 請與 intowow 聯繫做廣告版位規劃及設定
+2. 初始化 `CETableViewADHelper` 時使用 adTag 初始化方法
+    - `adTag` 為代表此頻道的字串
+
+```objc
+  // use adTag instead of placement string
+  _adHelper = [CETableViewADHelper helperWithTableView:self.tableView viewController:self adTag:adTag];
+```
+---
