@@ -21,6 +21,7 @@ _adHelper = [CETableViewADHelper helperWithTableView:self.tableView viewControll
 // 3. stop AD play at NSIndexPath
 [_adHelper stopAdAtIndexPath:indexPath];
 ```
+---
 
 ### 信息流廣告 UI 設定
 `CETableViewADHelper.h` 提供下列 API 調整信息流廣告的 UI
@@ -64,6 +65,7 @@ _adHelper = [CETableViewADHelper helperWithTableView:self.tableView viewControll
  */
 - (void)setAdCellCustomizedBlock:(void (^)(UITableViewCell *adCell))customizedAdCellBlock;
 ```
+---
 
 ### 在信息流中放置固定廣告
 1. 請與 intowow 聯繫做廣告版位規劃及設定
@@ -75,3 +77,13 @@ _adHelper = [CETableViewADHelper helperWithTableView:self.tableView viewControll
   _adHelper = [CETableViewADHelper helperWithTableView:self.tableView viewController:self adTag:adTag];
 ```
 ---
+
+### 即時關閉信息流廣告
+- `CETableViewADHelper` 可以透過 API 於 runtime 關閉信息流廣告插入, 並清除目前的廣告
+
+```objc
+/**
+ *  disable load AD
+ */
+- (void)disableAd;
+```
