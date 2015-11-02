@@ -16,6 +16,7 @@ pages:
     - '設定蓋屏廣告': 'docs/advanced-splash-ad.md'
     - '設定信息流廣告': 'docs/advanced-stream-ad.md'
     - '卡片式廣告': 'docs/card-format-ad.md'
+    - '定向投放': 'docs/audience-targeting.md'
   - 'SDK 整合':
     - '註冊背景工作 (background task)': 'docs/register-background-task.md'
     - '註冊背景抓取 (background fetch)': 'docs/register-background-fetch.md'
