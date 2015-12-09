@@ -17,7 +17,7 @@ pod "CrystalExpressSDK-CN", '~> 1.5'
 
 ### 手動安裝 SDK
 1. 下載 SDK
-    - [CrystalExpressSDK-1.5.1](http://s3.cn-north-1.amazonaws.com.cn/intowow-sdk/ios/Manual/CrystalExpressSDK-CN-1.5.1.zip)
+    - [CrystalExpressSDK-1.5.6](http://s3.cn-north-1.amazonaws.com.cn/intowow-sdk/ios/manual/cn/CrystalExpressSDK-CN-1.5.6.zip)
 2. 打開 xcode 中的 project 設定頁面, Build Phases > Link Binary With Libraries, 加入 CrystalExpressSDK-x.x.x.a
 3. 將 zip 檔中的 header 檔加入 project 中
 4. 確認以下的 frameworks 都已加入 Build Phases
