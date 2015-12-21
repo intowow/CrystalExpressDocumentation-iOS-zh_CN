@@ -9,7 +9,7 @@
 - 我們強烈建議您使用 Cocoapods 來整合 CrystalExpress SDK
 - 將下列的代碼加入到 Podfile 中
 ```
-pod "CrystalExpressSDK-CN", '~> 1.5'
+pod "CrystalExpressSDK-CN", '~> 1.6'
 ```
 - 執行 `pod update` 或 `pod install`
 - 打開 pod 產生好的 {yourprojectname}.xcworkspace, CrystalExpressSDK 已經安裝完成
@@ -17,7 +17,7 @@ pod "CrystalExpressSDK-CN", '~> 1.5'
 
 ### 手動安裝 SDK
 1. 下載 SDK
-    - [CrystalExpressSDK-1.5.6](http://s3.cn-north-1.amazonaws.com.cn/intowow-sdk/ios/manual/cn/CrystalExpressSDK-CN-1.5.6.zip)
+    - [CrystalExpressSDK-1.6.2](http://s3.cn-north-1.amazonaws.com.cn/intowow-sdk/ios/manual/cn/CrystalExpressSDK-CN-1.6.2.zip)
 2. 打開 xcode 中的 project 設定頁面, Build Phases > Link Binary With Libraries, 加入 CrystalExpressSDK-x.x.x.a
 3. 將 zip 檔中的 header 檔加入 project 中
 4. 確認以下的 frameworks 都已加入 Build Phases
@@ -47,4 +47,16 @@ pod "CrystalExpressSDK-CN", '~> 1.5'
      <key>NSAllowsArbitraryLoads</key>
      <true/>
 </dict>
+```
+
+##設定第三方 APP 的白名單
+- 在xcode7(iOS9 SDK)之後，若是需要開啟第三方APP時，APP需要在Info.plist中將第三方APP的url schemes列為白名單，才可以正常檢查是否安裝或是開啟網頁．例如希望以Facebook APP 開啟 fb://profile/1493535890869． 你可以在以下連結得到更多細節 https://developer.apple.com/videos/wwdc/2015/?id=703.
+```xml
+<key>LSApplicationQueriesSchemes</key>
+<array>
+		<string>fb</string>
+		<string>twitter</string>
+		<string>youtube</string>
+		<string>...</string>
+</array>
 ```
