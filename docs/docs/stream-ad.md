@@ -70,7 +70,7 @@
 改為
 
 ```objc
-[self.tableView ce_selectRowAtIndexPath:myIndexPath];
+[self.tableView ce_selectRowAtIndexPath:myIndexPath animated:animated scrollPosition:scrollPosition];
 ```
 
 這些方法就像一般的 `UITableView` 方法, 但會根據插入的廣告來調整 `NSIndexPath`
